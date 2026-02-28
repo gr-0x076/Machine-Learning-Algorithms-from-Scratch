@@ -23,16 +23,22 @@ class LinearRegressionFromScratch:
 
 
     def performance_metrics(self, X, y):
-        y_predicted = self.predict(X)
-        
-        mse = np.mean((y - y_predicted)**2)
+        y_pred = self.predict(X)
+        n = X.shape[0]
+        p = X.shape[1]
+        mse = np.mean((y - y_pred)**2)
         rmse = np.sqrt(mse)
-        ssr = np.sum((y - y_predicted)**2)
+        mae = np.mean(np.abs(y - y_pred))
+        ssr = np.sum((y - y_pred)**2)
         sst = np.sum((y - np.mean(y))**2)
         r2 = 1 - (ssr / sst)
+
+        adjusted_r2 = 1 - ((1 - r2) * (n - 1) / (n - p - 1))
         
         return {
             "MSE": mse,
             "RMSE": rmse,
-            "R2_Score": r2
+            "MAE": mae,
+            "R2": r2,
+            "Adjusted_R2": adjusted_r2
         }
